@@ -1,1 +1,25 @@
+name: Deploy to S3
 
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AKIA5RDCYXZKPWGIQE2U }}
+          aws-secret-access-key: ${{ secrets.A3he5BpLIBQWmozSv9fB3Pt5nNBrmSSblL4cPw5T }}
+          aws-region: us-east-1
+
+      - name: Deploy to S3
+        run: |
+          aws s3 sync . s3://priyangshu-lpu-80y --delete
