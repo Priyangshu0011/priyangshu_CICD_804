@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Luminary — Where Ideas Glow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #0d0d0d;
+      --cream: #f5f0e8;
+      --warm: #e8dcc8;
+      --gold: #c8973a;
+      --gold-light: #e8b84b;
+      --rust: #b84c2a;
+      --sage: #6b7c5a;
+      --muted: #8a8070;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 5%;
+      background: rgba(245,240,232,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(200,151,58,0.2);
+    }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; font-weight: 700;
+      color: var(--ink); text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+    .logo span { color: var(--gold); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: var(--muted);
+      font-size: 0.9rem; font-weight: 500;
+      letter-spacing: 0.03em; text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta {
+      background: var(--ink); color: var(--cream) !important;
+      padding: 0.5rem 1.2rem; border-radius: 2rem;
+    }
+    .nav-cta:hover { background: var(--gold); color: var(--ink) !important; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { width: 24px; height: 2px; background: var(--ink); transition: 0.3s; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid; place-items: center;
+      position: relative; overflow: hidden;
+      padding: 6rem 5% 4rem;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 80% 20%, rgba(200,151,58,0.15) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 60% at 10% 80%, rgba(184,76,42,0.1) 0%, transparent 60%),
+        var(--cream);
+    }
+    .hero-noise {
+      position: absolute; inset: 0; opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px;
+    }
+    .hero-content {
+      position: relative; text-align: center; max-width: 900px;
+    }
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.78rem; font-weight: 500;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--gold); border: 1px solid var(--gold);
+      padding: 0.35rem 1rem; border-radius: 2rem;
+      margin-bottom: 2rem;
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 8vw, 7rem);
+      line-height: 1.05; font-weight: 700;
+      letter-spacing: -0.03em;
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+    .hero h1 em {
+      font-style: italic; color: var(--gold);
+    }
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--muted); max-width: 520px;
+      margin: 1.5rem auto 2.5rem;
+      line-height: 1.7; font-weight: 300;
+      animation: fadeUp 0.7s 0.2s ease both;
+    }
+    .hero-btns {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+      animation: fadeUp 0.7s 0.3s ease both;
+    }
+    .btn-primary {
+      background: var(--ink); color: var(--cream);
+      padding: 0.9rem 2.2rem; border-radius: 3rem;
+      font-size: 0.95rem; font-weight: 500;
+      text-decoration: none; letter-spacing: 0.02em;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+      box-shadow: 0 4px 20px rgba(13,13,13,0.2);
+    }
+    .btn-primary:hover {
+      background: var(--gold);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(200,151,58,0.35);
+    }
+    .btn-outline {
+      border: 1.5px solid var(--ink); color: var(--ink);
+      padding: 0.9rem 2.2rem; border-radius: 3rem;
+      font-size: 0.95rem; font-weight: 500;
+      text-decoration: none; letter-spacing: 0.02em;
+      transition: transform 0.2s, background 0.2s, color 0.2s;
+    }
+    .btn-outline:hover {
+      background: var(--ink); color: var(--cream);
+      transform: translateY(-2px);
+    }
+    .hero-scroll {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+      font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted); animation: fadeIn 1s 0.8s ease both;
+    }
+    .scroll-line {
+      width: 1px; height: 40px; background: var(--gold);
+      animation: scrollPulse 2s infinite;
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap {
+      overflow: hidden; padding: 1.2rem 0;
+      border-top: 1px solid rgba(13,13,13,0.1);
+      border-bottom: 1px solid rgba(13,13,13,0.1);
+      background: var(--ink);
+    }
+    .marquee-track {
+      display: flex; gap: 3rem; width: max-content;
+      animation: marquee 20s linear infinite;
+    }
+    .marquee-item {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; color: var(--gold);
+      white-space: nowrap; font-style: italic;
+    }
+    .marquee-dot { color: var(--rust); }
+
+    /* ── FEATURES ── */
+    .features {
+      padding: 6rem 5%; max-width: 1200px; margin: 0 auto;
+    }
+    .section-label {
+      font-size: 0.78rem; font-weight: 500;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--sage); margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.15; font-weight: 700;
+      letter-spacing: -0.02em; max-width: 520px;
+      margin-bottom: 3.5rem;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background: white;
+      border-radius: 1.2rem; padding: 2rem;
+      border: 1px solid rgba(200,151,58,0.15);
+      transition: transform 0.25s, box-shadow 0.25s;
+      position: relative; overflow: hidden;
+    }
+    .card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--rust));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.3s;
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(13,13,13,0.1); }
+    .card:hover::before { transform: scaleX(1); }
+    .card-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      display: grid; place-items: center;
+      font-size: 1.4rem; margin-bottom: 1.2rem;
+    }
+    .card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem; font-weight: 700;
+      margin-bottom: 0.6rem;
+    }
+    .card p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+
+    /* ── SHOWCASE ── */
+    .showcase {
+      background: var(--ink); color: var(--cream);
+      padding: 6rem 5%;
+    }
+    .showcase-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center;
+    }
+    .showcase .section-label { color: var(--gold); }
+    .showcase .section-title { color: var(--cream); max-width: 100%; margin-bottom: 1.5rem; }
+    .showcase-text {
+      font-size: 1rem; color: rgba(245,240,232,0.7);
+      line-height: 1.8; margin-bottom: 2rem;
+    }
+    .showcase-visual {
+      aspect-ratio: 1; border-radius: 1.5rem;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2a2510 100%);
+      position: relative; overflow: hidden;
+      display: grid; place-items: center;
+    }
+    .orb {
+      width: 60%; aspect-ratio: 1; border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, var(--gold-light), var(--rust));
+      box-shadow: 0 0 80px rgba(200,151,58,0.4);
+      animation: float 4s ease-in-out infinite;
+    }
+    .orb-ring {
+      position: absolute; width: 80%; aspect-ratio: 1;
+      border-radius: 50%; border: 1px solid rgba(200,151,58,0.3);
+      animation: spin 10s linear infinite;
+    }
+    .orb-ring::before {
+      content: ''; position: absolute;
+      top: -4px; left: 50%; width: 8px; height: 8px;
+      background: var(--gold); border-radius: 50%;
+    }
+
+    /* ── STATS ── */
+    .stats {
+      padding: 5rem 5%; max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 2rem; text-align: center;
+    }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700; color: var(--gold);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.85rem; color: var(--muted);
+      margin-top: 0.5rem; letter-spacing: 0.03em;
+    }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials {
+      padding: 5rem 5%;
+      background: var(--warm);
+    }
+    .testimonials-inner { max-width: 1200px; margin: 0 auto; }
+    .testimonials-header { text-align: center; margin-bottom: 3rem; }
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .testi-card {
+      background: var(--cream); border-radius: 1.2rem;
+      padding: 2rem; border: 1px solid rgba(200,151,58,0.2);
+    }
+    .testi-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; font-style: italic;
+      line-height: 1.6; color: var(--ink);
+      margin-bottom: 1.5rem;
+    }
+    .testi-author { display: flex; align-items: center; gap: 1rem; }
+    .avatar {
+      width: 42px; height: 42px; border-radius: 50%;
+      display: grid; place-items: center;
+      font-size: 1.1rem; font-weight: 700;
+      color: white; flex-shrink: 0;
+    }
+    .testi-name { font-size: 0.9rem; font-weight: 500; }
+    .testi-role { font-size: 0.78rem; color: var(--muted); }
+
+    /* ── CTA ── */
+    .cta-section {
+      padding: 6rem 5%; text-align: center;
+    }
+    .cta-section .section-title { margin: 0 auto 1rem; max-width: 600px; }
+    .cta-section p { color: var(--muted); margin-bottom: 2.5rem; font-size: 1rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink); color: rgba(245,240,232,0.6);
+      padding: 3rem 5%;
+      display: flex; flex-wrap: wrap;
+      gap: 1.5rem; align-items: center; justify-content: space-between;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem; font-weight: 700;
+      color: var(--cream); text-decoration: none;
+    }
+    .footer-logo span { color: var(--gold); }
+    .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .footer-links a {
+      color: rgba(245,240,232,0.5); text-decoration: none;
+      font-size: 0.85rem; transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-copy { font-size: 0.8rem; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 1; transform: scaleY(1); }
+      50% { opacity: 0.4; transform: scaleY(0.5); }
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-10px) scale(1.04); }
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; flex-direction: column; gap: 1rem;
+        position: absolute; top: 100%; left: 0; right: 0;
+        background: var(--cream); padding: 1.5rem 5%;
+        border-bottom: 1px solid rgba(200,151,58,0.2);
+      }
+      .nav-links.open { display: flex; }
+      .hamburger { display: flex; }
+      .showcase-inner { grid-template-columns: 1fr; }
+      .showcase-visual { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="logo" href="#">Lumin<span>ary</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#testimonials">Reviews</a></li>
+      <li><a href="#cta" class="nav-cta">Get Started</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger" onclick="toggleNav()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-noise"></div>
+    <div class="hero-content">
+      <span class="hero-tag">✦ Now in Public Beta</span>
+      <h1>Where Your <em>Ideas</em><br>Come to Glow</h1>
+      <p class="hero-sub">Luminary is the creative workspace that transforms scattered thoughts into luminous, finished work — beautifully.</p>
+      <div class="hero-btns">
+        <a href="#cta" class="btn-primary">Start for Free →</a>
+        <a href="#features" class="btn-outline">See How It Works</a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span class="marquee-item">Ideate</span>
+      <span class="marquee-dot">✦</span>
+      <span class="marquee-item">Create</span>
+      <span class="marquee-dot">✦</span>
+      <span class="marquee-item">Publish</span>
+      <span class="marquee-dot">✦</span>
+      <span class="marquee-item">Inspire</span>
+      <span class="marquee-dot">✦</span>
+      <span class="marquee-item">Collaborate</span>
+      <span class="marquee-dot">✦</span>
+      <span class="marquee-item">Illuminate</span>
+      <span class="marquee-dot">✦</span>
+      <!-- duplicate for seamless loop -->
+      <span class="marquee-item">Ideate</span>
+      <span class="marquee-dot">✦</span>
+      <span class="marquee-item">Create</span>
+      <span class="marquee-dot">✦</span>
+      <span class="marquee-item">Publish</span>
+      <span class="marquee-dot">✦</span>
+      <span class="marquee-item">Inspire</span>
+      <span class="marquee-dot">✦</span>
+      <span class="marquee-item">Collaborate</span>
+      <span class="marquee-dot">✦</span>
+      <span class="marquee-item">Illuminate</span>
+      <span class="marquee-dot">✦</span>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <p class="section-label">✦ What We Offer</p>
+    <h2 class="section-title">Everything your creative mind needs</h2>
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon" style="background:#fff8ec;">🌅</div>
+        <h3>Mood Boards</h3>
+        <p>Drag, drop, and arrange visual references into breathtaking collections. Your inspiration, organized.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background:#f0faf4;">✍️</div>
+        <h3>Rich Writing Canvas</h3>
+        <p>A distraction-free editor with beautiful typography options that makes words feel like art.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background:#fdf0ee;">🔥</div>
+        <h3>Live Collaboration</h3>
+        <p>Work with your team in real time. See edits, leave notes, and build ideas together — anywhere.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background:#f2f0fb;">🚀</div>
+        <h3>One-Click Publish</h3>
+        <p>Take your work from private to public instantly. Share polished pages without any code.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background:#fff8ec;">📊</div>
+        <h3>Insight Analytics</h3>
+        <p>Know what resonates. Audience engagement data, heatmaps, and trends at a glance.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background:#f0faf4;">🔒</div>
+        <h3>Privacy First</h3>
+        <p>End-to-end encrypted. Your ideas are yours alone until you choose to share them.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div>
+      <div class="stat-num">42K+</div>
+      <div class="stat-label">Active Creators</div>
+    </div>
+    <div>
+      <div class="stat-num">1.8M</div>
+      <div class="stat-label">Projects Created</div>
+    </div>
+    <div>
+      <div class="stat-num">98%</div>
+      <div class="stat-label">Satisfaction Rate</div>
+    </div>
+    <div>
+      <div class="stat-num">150+</div>
+      <div class="stat-label">Countries Reached</div>
+    </div>
+  </div>
+
+  <!-- SHOWCASE -->
+  <section class="showcase" id="about">
+    <div class="showcase-inner">
+      <div>
+        <p class="section-label">✦ Our Vision</p>
+        <h2 class="section-title">Built for the deeply creative soul</h2>
+        <p class="showcase-text">We believe every great idea deserves a beautiful home. Luminary was born from the frustration of juggling a dozen apps — we put everything in one glowing, intuitive space.</p>
+        <a href="#cta" class="btn-primary">Join the Movement →</a>
+      </div>
+      <div class="showcase-visual">
+        <div class="orb-ring"></div>
+        <div class="orb"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials" id="testimonials">
+    <div class="testimonials-inner">
+      <div class="testimonials-header">
+        <p class="section-label">✦ Voices of the Community</p>
+        <h2 class="section-title" style="margin:0 auto;">Loved by creators worldwide</h2>
+      </div>
+      <div class="testi-grid">
+        <div class="testi-card">
+          <p class="testi-quote">"Luminary replaced four apps for me. My workflow has never felt this effortless or this beautiful."</p>
+          <div class="testi-author">
+            <div class="avatar" style="background:linear-gradient(135deg,#c8973a,#b84c2a);">A</div>
+            <div>
+              <div class="testi-name">Aisha Ramírez</div>
+              <div class="testi-role">Brand Strategist, Madrid</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <p class="testi-quote">"The typography and mood board tools are simply extraordinary. I produce better client work in half the time."</p>
+          <div class="testi-author">
+            <div class="avatar" style="background:linear-gradient(135deg,#6b7c5a,#3a5a40);">T</div>
+            <div>
+              <div class="testi-name">Theo Blackwell</div>
+              <div class="testi-role">Freelance Art Director</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <p class="testi-quote">"Our remote team finally has a shared creative space that feels like a real studio. Luminary is magic."</p>
+          <div class="testi-author">
+            <div class="avatar" style="background:linear-gradient(135deg,#b84c2a,#8a2010);">P</div>
+            <div>
+              <div class="testi-name">Priya Nair</div>
+              <div class="testi-role">Creative Director, Mumbai</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="cta">
+    <p class="section-label">✦ Ready to Begin?</p>
+    <h2 class="section-title">Let your ideas shine brighter</h2>
+    <p>Free forever on the Spark plan. No credit card needed.</p>
+    <div class="hero-btns">
+      <a href="#" class="btn-primary">Create Free Account →</a>
+      <a href="#features" class="btn-outline">Explore Features</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <a class="footer-logo" href="#">Lumin<span>ary</span></a>
+    <div class="footer-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Blog</a>
+      <a href="#">Careers</a>
+      <a href="#">Contact</a>
+    </div>
+    <span class="footer-copy">© 2026 Luminary. All rights reserved.</span>
+  </footer>
+
+  <script>
+    function toggleNav() {
+      document.getElementById('navLinks').classList.toggle('open');
+    }
+    // Close nav on link click (mobile)
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.addEventListener('click', () => {
+        document.getElementById('navLinks').classList.remove('open');
+      });
+    });
+  </script>
+</body>
+</html>
